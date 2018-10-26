@@ -1,1 +1,1 @@
-web:python3 TornadoServer/main.py
+web: python TornadoServer/main.py
