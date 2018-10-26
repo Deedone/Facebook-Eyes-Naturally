@@ -23,11 +23,12 @@ def login():
 
 
 def get_feed():
-    posts = driver.find_elements_by_xpath("//div[@role='article']")
+    posts = driver.find_elements_by_xpath("//div[@role='article']//div[contains(@class,'userContentWrapper')]/div/div[2]")
+
     for p in posts:
         yield p.text
 
-
+login()
 
 
 
