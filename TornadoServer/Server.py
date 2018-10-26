@@ -15,5 +15,6 @@ class Server():
             (r"/feed", FeedHandler)])
 
     def listen(self):
-        self.server.listen(8888)
+        port = int(os.environ.get("PORT", 8888))
+        self.server.listen(port)
         tornado.ioloop.IOLoop.instance().start()
