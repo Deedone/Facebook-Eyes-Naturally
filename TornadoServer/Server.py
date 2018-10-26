@@ -2,11 +2,12 @@ import tornado.escape
 import tornado.ioloop
 import tornado.web
 import os
+import api
 
 
 class FeedHandler(tornado.web.RequestHandler):
     def get(self):
-        response = {'test': 'Misha'}
+        response = api.get_feed()
         self.write(response)
 
 
