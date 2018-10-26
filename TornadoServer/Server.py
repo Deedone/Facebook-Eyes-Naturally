@@ -7,7 +7,7 @@ import api
 
 class FeedHandler(tornado.web.RequestHandler):
     def get(self):
-        response = api.get_feed()
+        response = {'t': api.get_feed()}
         self.write(response)
 
 
