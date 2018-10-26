@@ -10,7 +10,7 @@ feed = api.get_feed()
 
 class FeedHandler(tornado.web.RequestHandler):
     def get(self):
-        response = {'t': next(feed)}
+        response = next(feed).encode()
         self.write(response)
 
 
