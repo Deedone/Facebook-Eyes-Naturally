@@ -5,9 +5,12 @@ import os
 import api
 
 
+feed = api.get_feed()
+
+
 class FeedHandler(tornado.web.RequestHandler):
     def get(self):
-        response = {'t': api.get_feed()}
+        response = {'t': next(feed)}
         self.write(response)
 
 
