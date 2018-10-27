@@ -7,6 +7,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 
 public class GetUrlRequest {
 	public static String doGet(String url)
@@ -30,19 +32,19 @@ public class GetUrlRequest {
 			if(i != 10) Thread.sleep(200);
 			inputLine = bufferedReader.readLine();
 			SpeechControllerSphinx.logger.println("GET NULL");
-		} while (i > 0 && inputLine == null);
+		} while (--i > 0 && inputLine == null);
 
 		StringBuffer response = new StringBuffer();
 
-		while ((inputLine = bufferedReader.readLine()) != null) {
+		do {
 			response.append(inputLine);
-		}
+		}while ((inputLine = bufferedReader.readLine()) != null);
 
 		bufferedReader.close();
 
 //      print result
-		SpeechControllerSphinx.logger.println("Response string: " + response.toString());
+//		SpeechControllerSphinx.logger.println("Response string: " + response.toString());
 
-		return response.toString();
+		return URLDecoder.decode(response.toString(), "UTF-8");
 	}
 }

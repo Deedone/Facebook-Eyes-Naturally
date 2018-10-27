@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.view.ViewDebug;
+import android.widget.Scroller;
 import android.widget.Toast;
 
 import com.feyes.facebookeyes.controller.Close;
@@ -31,7 +32,7 @@ public class WorkInBackground extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        Toast.makeText(this, "Служба создана",
+        Toast.makeText(this, "Service has been created",
                 Toast.LENGTH_SHORT).show();
     //    mPlayer = MediaPlayer.create(this, R.raw.flower_romashka);
     //    mPlayer.setLooping(false);
@@ -39,7 +40,7 @@ public class WorkInBackground extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Toast.makeText(this, "Служба запущена",
+        Toast.makeText(this, "Service has been started",
                 Toast.LENGTH_SHORT).show();
        // mPlayer.start();
         onTextContent();
@@ -88,7 +89,7 @@ public class WorkInBackground extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Toast.makeText(this, "Служба остановлена",
+        Toast.makeText(this, "Service has stopped",
                 Toast.LENGTH_SHORT).show();
       //  mPlayer.stop();
     }

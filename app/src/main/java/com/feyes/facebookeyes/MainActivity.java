@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.feyes.facebookeyes.ssp.SpeechController;
+import com.feyes.facebookeyes.ssp.UserAction;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -53,30 +54,17 @@ public class MainActivity extends AppCompatActivity {
 		}
 
         //
-        final Button btnStart = (Button) findViewById(R.id.button_start);
-        final Button btnStop = (Button) findViewById(R.id.button_stop);
+        //final Button btnStart = (Button) findViewById(R.id.button_start);
+        //final Button btnStop = (Button) findViewById(R.id.button_stop);
         final Button btnLogin = (Button) findViewById(R.id.button_login);
-        btnStop.setOnClickListener(new View.OnClickListener() {
+    /*    btnStop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 stopService(
                         new Intent(MainActivity.this, WorkInBackground.class));
             }
         });
-
-        // запуск службы
-        btnStart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-            	if(speechController != null) {
-					speechController.speak("Сила ночи сила дня - одинакова хуйня");
-				}
-                // используем явный вызов службы
-                startService(
-                        new Intent(MainActivity.this, WorkInBackground.class));
-            }
-        });
-
+        */
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,6 +74,9 @@ public class MainActivity extends AppCompatActivity {
 
                 login = editLogin.getText().toString();
                 password = editPassword.getText().toString();
+
+				startService(
+						new Intent(MainActivity.this, WorkInBackground.class));
             }
         });
 

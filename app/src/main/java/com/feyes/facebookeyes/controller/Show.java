@@ -14,43 +14,61 @@ public class Show extends StandardAction {
 
 	@Override
 	public String getGrammar() {
-		return "(news) | (messages) | (notifications)";
+		return "(news) | (messages)";
 	}
 
 	@Override
 	public void action(final String st) {
-		MainActivity.mainActivity.lastCommands.push(st);
-
 		String url = "";
 
 		if(st.contains("news")) {
-			url = "https://facebook-eyes-naturally.herokuapp.com/feed";
+			new News().execute();
 		} else if(st.contains("messages")) {
-			url = "https://facebook-eyes-naturally.herokuapp.com/feed";
-		} else if(st.contains("notifications")) {
-			url = "https://facebook-eyes-naturally.herokuapp.com/feed";
+			new Msg().execute();
 		}
+	}
 
-		if(url.isEmpty()) {
-			return;
-		}
+	private static class News extends AsyncTask<Void, Void, Exception> {
+		@Override
+		protected Exception doInBackground(Void... voids) {
+			try {
+				String txt = GetUrlRequest.doGet("https://facebook-eyes-naturally.herokuapp.com/feed").trim();
 
-		final String urlC = url;
+				txt = txt.replace('\n', ';');
 
-		new AsyncTask<Void, Void, Exception>() {
-
-			@Override
-			protected Exception doInBackground(Void... voids) {
-				try {
-					String txt = GetUrlRequest.doGet(urlC);
-					SpeechControllerSphinx.logger.println(txt);
-					MainActivity.speechController.speak(txt);
-				} catch (Exception e) {
-					e.printStackTrace();
-					e.printStackTrace(SpeechControllerSphinx.logger);
+				if(txt.isEmpty()) {
+					txt = "No messages";
 				}
-				return null;
+
+				SpeechControllerSphinx.logger.println(txt);
+				MainActivity.speechController.speak(txt);
+			} catch (Exception e) {
+				e.printStackTrace();
+				e.printStackTrace(SpeechControllerSphinx.logger);
 			}
-		}.execute();
+			return null;
+		}
+	}
+
+	private static class Msg extends AsyncTask<Void, Void, Exception> {
+		@Override
+		protected Exception doInBackground(Void... voids) {
+			try {
+				String txt = GetUrlRequest.doGet("https://facebook-eyes-naturally.herokuapp.com/msg").trim();
+
+				txt = txt.replace('\n', ';');
+
+				if(txt.isEmpty()) {
+					txt = "No messages";
+				}
+
+				SpeechControllerSphinx.logger.println(txt);
+				MainActivity.speechController.speak(txt);
+			} catch (Exception e) {
+				e.printStackTrace();
+				e.printStackTrace(SpeechControllerSphinx.logger);
+			}
+			return null;
+		}
 	}
 }

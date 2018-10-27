@@ -298,7 +298,7 @@ public class SpeechControllerSphinx implements
 				.setDictionary(new File(datapath, "en/cmudict-en-us.dict"))
 
 				.setRawLogDir(datapath) // To disable logging of raw audio comment out this call (takes a lot of space on the device)
-.setBoolean("-remove_noise", false)
+//.setBoolean("-remove_noise", true)
 // .setKeywordThreshold(keywordThreshold)
 				.getRecognizer();
 		recognizer.addListener(this);
