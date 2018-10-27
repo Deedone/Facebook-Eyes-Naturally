@@ -8,7 +8,6 @@ import android.os.Environment;
 import android.os.Handler;
 import android.speech.tts.TextToSpeech;
 
-import com.feyes.facebookeyes.ssp.ActionAttrib;
 import com.feyes.facebookeyes.ssp.SpeechController;
 import com.feyes.facebookeyes.ssp.UserAction;
 
@@ -20,8 +19,10 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.lang.ref.WeakReference;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Queue;
@@ -211,7 +212,13 @@ public class SpeechControllerSphinx implements
 
 		if (text != null) {
 //			Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
-			text.split("\\s+");
+			String[] data = text.split("\\s+");
+
+			UserAction ua = actionsMap.get(data[0]);
+
+			if(ua != null) {
+				ua.action(text.substring(data[0].length()));
+			}
 		}
 
 		if (COMMAND_SEARCH.equals(recognizer.getSearchName())) {
@@ -334,19 +341,7 @@ public class SpeechControllerSphinx implements
 
 			sb.append(action.getName().toLowerCase());
 
-			for (ActionAttrib[] group: action.getPossibleAttribs()) {
-				sb.append(action.attribsAllwaysRequied() ? "(" : "[");
-
-				for (int i = 0; i < group.length; ++i) {
-					sb.append(group[i].getName().toLowerCase());
-
-					if(i != group.length - 1) {
-						sb.append(" | ");
-					}
-				}
-
-				sb.append(action.attribsAllwaysRequied() ? ")" : "]");
-			}
+			sb.append(action.getGrammar());
 
 			sb.append(";\n");
 		}

@@ -10,29 +10,57 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
+import com.feyes.facebookeyes.controller.Show;
+import com.feyes.facebookeyes.ssp.SpeechController;
+import com.feyes.facebookeyes.ssp.UserAction;
+import com.feyes.facebookeyes.ssp.sphinx.SpeechControllerSphinx;
+
+import org.w3c.dom.Text;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Writer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+
+import static com.feyes.facebookeyes.R.id.fill;
+import static com.feyes.facebookeyes.R.id.text_all;
 
 public class MainActivity extends AppCompatActivity {
 
     public static String login;
     public static String password;
+	TextView edtAll;
+    public static SpeechController speechController;
+
+    public static MainActivity mainActivity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-       // printKeyHash();
-        int permissionCheck = ContextCompat.checkSelfPermission(this.getApplicationContext(), Manifest.permission.RECORD_AUDIO);
+		mainActivity = this;
+		setContentView(R.layout.activity_main);
+		// printKeyHash();
+		edtAll = (TextView)findViewById(R.id.text_all);
+		edtAll.setMovementMethod(new ScrollingMovementMethod());
+		int permissionCheck = ContextCompat.checkSelfPermission(this.getApplicationContext(), Manifest.permission.RECORD_AUDIO);
 
-        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, 1);
-        }
+		ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, 1);
+		if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+			throw new StackOverflowError();
+        } else {
+//        	runOnUiThread(this);
+		}
+
+        //
         final Button btnStart = (Button) findViewById(R.id.button_start);
         final Button btnStop = (Button) findViewById(R.id.button_stop);
         final Button btnLogin = (Button) findViewById(R.id.button_login);
@@ -48,6 +76,9 @@ public class MainActivity extends AppCompatActivity {
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+            	if(speechController != null) {
+					speechController.speak("Сила ночи сила дня - одинакова хуйня");
+				}
                 // используем явный вызов службы
                 startService(
                         new Intent(MainActivity.this, WorkInBackground.class));
@@ -77,12 +108,24 @@ public class MainActivity extends AppCompatActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Recognizer initialization is a time-consuming and it involves IO,
                 // so we execute it in async ta
+//				runOnUiThread(this);
             } else {
-                finish();
+            	throw new OutOfMemoryError();
+//                finish();
             }
         }
     }
-    private void printKeyHash() {
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+
+		if(speechController != null) {
+			speechController.destroy();
+		}
+	}
+
+	private void printKeyHash() {
         try{
             PackageInfo info = getPackageManager().getPackageInfo("com.feyes.facebookeyes", PackageManager.GET_SIGNATURES);
             for (Signature signature:info.signatures){
@@ -98,6 +141,4 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-    // остановка службы
-
 }
