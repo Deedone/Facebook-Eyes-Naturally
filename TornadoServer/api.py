@@ -9,6 +9,7 @@ chrome_options.add_experimental_option("prefs", prefs)
 chrome_options.add_argument("start-maximized")
 
 driver = webdriver.Chrome(chrome_options=chrome_options)
+driver.set_window_position(-10000, 0)
 
 
 def login():
