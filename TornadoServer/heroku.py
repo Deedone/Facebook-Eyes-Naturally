@@ -1,9 +1,12 @@
 import tornado.escape
 import tornado.ioloop
 import tornado.web
+from threading import Thread
+
 
 task = ''
 response = ''
+flag = False
 
 
 class FeedHandler(tornado.web.RequestHandler):
@@ -26,11 +29,14 @@ class NotifHandler(tornado.web.RequestHandler):
 
 class ResponseHandler(tornado.web.RequestHandler):
     def post(self):
+        global flag
+        global response
         response = self.request.body
+        flag = True
 
 
 class taskHandler(tornado.web.RequestHandler):
-    def post(self):
+    def get(self):
         global task
         self.write(task)
         task = ''
@@ -38,15 +44,17 @@ class taskHandler(tornado.web.RequestHandler):
 
 def send_response(handler):
     global response
-    while not response:
-        pass
-    handler.write(response)
-    response = None
+    global flag
+    if flag:
+        handler.write(response)
+        flag = False
 
 
 application = tornado.web.Application([
     (r"/feed", FeedHandler),
-    (r"/msg", MSGHandler)
+    (r"/msg", MSGHandler),
+    (r"/update", taskHandler),
+    (r"/set_response", ResponseHandler),
 ])
 
 if __name__ == "__main__":
