@@ -5,4 +5,6 @@ public interface SpeechController {
 	void speak(String text);
 
 	boolean isReady();
+
+	void stop();
 }

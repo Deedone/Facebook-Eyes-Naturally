@@ -55,7 +55,7 @@ public class WorkInBackground extends Service {
     	UserAction[] actions = new UserAction[StandardAction.actions.size()];
 
 		MainActivity.speechController =
-				new SpeechControllerSphinx(MainActivity.mainActivity, StandardAction.actions.toArray(actions), 1e-30f);
+				new SpeechControllerSphinx(MainActivity.mainActivity, StandardAction.actions.toArray(actions), 1e-20f);
 
 		SpeechControllerSphinx.logger = new PrintWriter(new Writer() {
 			@Override

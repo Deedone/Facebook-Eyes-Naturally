@@ -298,7 +298,8 @@ public class SpeechControllerSphinx implements
 				.setDictionary(new File(datapath, "en/cmudict-en-us.dict"))
 
 				.setRawLogDir(datapath) // To disable logging of raw audio comment out this call (takes a lot of space on the device)
-				.setKeywordThreshold(keywordThreshold)
+.setBoolean("-remove_noise", false)
+// .setKeywordThreshold(keywordThreshold)
 				.getRecognizer();
 		recognizer.addListener(this);
 		recognizer.addKeyphraseSearch(KWS_SEARCH, KEYPHRASE);
@@ -341,8 +342,15 @@ public class SpeechControllerSphinx implements
 
 			sb.append(action.getName().toLowerCase());
 
-			sb.append(action.getGrammar());
+			String grammar = action.getGrammar();
 
+			if(!grammar.isEmpty()) {
+
+				sb.append(" (");
+				sb.append(grammar);
+				sb.append(")");
+
+			}
 			sb.append(";\n");
 		}
 
@@ -377,5 +385,11 @@ public class SpeechControllerSphinx implements
 	@Override
 	public boolean isReady() {
 		return ready;
+	}
+
+	@Override
+	public void stop() {
+		speechQueue.clear();
+		textToSpeech.stop();
 	}
 }
