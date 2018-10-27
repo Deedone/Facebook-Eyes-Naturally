@@ -65,7 +65,7 @@ def get_unread_msg():
     elems = driver.find_elements_by_xpath("//ul[contains(@class,'jewelContent')]/li[contains(@class,'jewelItemNew')]")
     s = ""
     for m in elems:
-        s += '\n'.join(m.text.split('\n')[0:2])
+        s += ('\n'.join(m.text.split('\n')[0:2])).replace('(',' ').replace(')',' ')
         s+= '\n'
     return s
 
