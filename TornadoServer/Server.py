@@ -1,25 +1,28 @@
-import tornado.escape
-import tornado.ioloop
-import tornado.web
-import os
+import requests
 import api
 
 
-class FeedHandler(tornado.web.RequestHandler):
-    def get(self):
-        response = ''
-        for s in api.get_feed():
-            response += s.text
-            print(s.text)
-        self.write(response)
+URL = 'http://localhost:8887/update'
 
 
 class Server():
     def __init__(self):
-        self.server = tornado.web.Application([
-            (r"/feed", FeedHandler)])
+        pass
+
+    def sendResponse(self):
+        data = ''
+        for s in api.get_feed():
+            data += s.text
+            requests.post(URL, data)
 
     def listen(self):
-        port = int(os.environ.get("PORT", 8888))
-        self.server.listen(port)
-        tornado.ioloop.IOLoop.instance().start()
+        while True:
+            r = requests.get(URL)
+            print(r.json())
+            if r:
+                self.sendResponse()
+
+
+if __name__ == 'main':
+    s = Server()
+    s.listen()
