@@ -4,12 +4,12 @@ from selenium.webdriver.chrome.options import Options
 token = "EAAEuomxbKGkBAA0BChKIfZAsjCP4a099SQYRShhp58JTZAhLZCUj9HvdjIEQJjOISaRwY6XpcjIG4A0EhOaNNZC7hv6tAlzP4cPNGUz7uKPWH0PBkL9mUMi0JgQ2tIMILMnyVKaXdl1XH8UddNg4d8bZARSX7K0sV1N8K29qbqnHIVvOlXcweBedo1dD2CGTYvqoCoxZCZAcwZDZD"
 
 chrome_options = webdriver.ChromeOptions()
+chrome_options.add_argument('headless')
 prefs = {"profile.default_content_setting_values.notifications": 2}
 chrome_options.add_experimental_option("prefs", prefs)
 chrome_options.add_argument("start-maximized")
 
 driver = webdriver.Chrome(chrome_options=chrome_options)
-driver.set_window_position(-10000, 0)
 
 
 def login():
@@ -27,9 +27,7 @@ def login():
 def get_feed():
     posts = driver.find_elements_by_xpath(
         "//div[@role='article']//div[contains(@class,'userContentWrapper')]/div/div[2]")
-
-    for p in posts:
-        yield p.text
+    return posts
 
 
 login()
