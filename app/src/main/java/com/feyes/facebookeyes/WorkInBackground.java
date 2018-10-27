@@ -7,8 +7,17 @@ import android.support.annotation.Nullable;
 import android.view.ViewDebug;
 import android.widget.Toast;
 
-public class WorkInBackground extends Service {
+import com.feyes.facebookeyes.controller.Close;
+import com.feyes.facebookeyes.controller.Show;
+import com.feyes.facebookeyes.controller.StandardAction;
+import com.feyes.facebookeyes.ssp.UserAction;
+import com.feyes.facebookeyes.ssp.sphinx.SpeechControllerSphinx;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Writer;
+
+public class WorkInBackground extends Service {
 
     @Nullable
     @Override
@@ -35,17 +44,39 @@ public class WorkInBackground extends Service {
         return super.onStartCommand(intent, flags, startId);
     }
 
-    private void onTextContent(){
+    private void onTextContent() {
+    	new Close();
+    	new Show();
+    	UserAction[] actions = new UserAction[StandardAction.actions.size()];
 
-        for (int i = 0 ;i < 10; i++)
-            Toast.makeText(this, Integer.toString(i),
-                    Toast.LENGTH_SHORT).show();
+		MainActivity.speechController =
+				new SpeechControllerSphinx(MainActivity.mainActivity, StandardAction.actions.toArray(actions), 1e-30f);
 
-        Toast.makeText(this,MainActivity.login,
-                Toast.LENGTH_SHORT).show();
-        Toast.makeText(this, MainActivity.password,
-                Toast.LENGTH_SHORT).show();
+		SpeechControllerSphinx.logger = new PrintWriter(new Writer() {
+			@Override
+			public void write(char[] cbuf, int off, int len) throws IOException {
 
+				final String s = new String(cbuf, off, len);
+
+				System.err.print(s);
+				MainActivity.mainActivity.runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						MainActivity.mainActivity.edtAll.append(s);
+					}
+				});
+			}
+
+			@Override
+			public void flush() throws IOException {
+
+			}
+
+			@Override
+			public void close() throws IOException {
+
+			}
+		});
 
     }
 

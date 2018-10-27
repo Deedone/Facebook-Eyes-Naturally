@@ -4,8 +4,7 @@ import java.util.List;
 
 public interface UserAction {
 	String getName();
-	ActionAttrib[][] getPossibleAttribs();
-	boolean attribsAllwaysRequied();
+	String getGrammar();
 
-	void action(List<ActionAttrib> attribs);
+	void action(String st);
 }
