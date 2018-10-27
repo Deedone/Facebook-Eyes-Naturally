@@ -23,6 +23,7 @@ class MSGHandler(tornado.web.RequestHandler):
 
 class NotifHandler(tornado.web.RequestHandler):
     def get(self):
+        global task
         task = {'task': 'notifications'}
         send_response(self)
 

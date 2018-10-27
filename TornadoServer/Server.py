@@ -2,7 +2,7 @@ import requests
 import api
 
 
-URL = 'http://localhost:8887/update'
+URL = 'https://facebook-eyes-naturally.herokuapp.com/update'
 
 
 class Server():
@@ -17,12 +17,12 @@ class Server():
 
     def listen(self):
         while True:
-            r = requests.get(URL)
-            print(r.json())
+            r = requests.get(URL).text
+            print(r)
             if r:
                 self.sendResponse()
 
 
-if __name__ == 'main':
-    s = Server()
-    s.listen()
+s = Server()
+s.listen()
+print(1)
