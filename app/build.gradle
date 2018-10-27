@@ -19,6 +19,8 @@ android {
 }
 
 dependencies {
+    implementation project(':aars')
+    implementation 'commons-io:commons-io:2.6'
 
     implementation 'com.facebook.android:facebook-android-sdk:4.+'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
