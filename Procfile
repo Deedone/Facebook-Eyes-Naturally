@@ -1,1 +1,1 @@
-web: python TornadoServer/main.py
+web: python TornadoServer/heroku.py
