@@ -3,7 +3,7 @@ package com.feyes.facebookeyes.controller;
 import com.feyes.facebookeyes.MainActivity;
 
 public class Help extends StandardAction {
-	protected Help(String name) {
+	public Help() {
 		super("help");
 	}
 
@@ -17,8 +17,12 @@ public class Help extends StandardAction {
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				MainActivity.speechController.speak("Hello the Facebook user. Say facebook for " +
-						"activation. Say stop for application exit. Say code word open  if you want to open the Facebook application.");
+				MainActivity.speechController.speak("Today is my birthday and I am glad to " +
+						"serve you all the time, whether it’s day or night. Thanks to The Team A " +
+						"who have created me for this great chance to help people be online every " +
+						"second and easily share new information with them. You could use some awesome " +
+						"short commands to communicate with me, ask me to show the news, read new " +
+						"messages or just some notifications.");
 			}
 		}).start();
 	}

@@ -9,6 +9,7 @@ import android.widget.Scroller;
 import android.widget.Toast;
 
 import com.feyes.facebookeyes.controller.Close;
+import com.feyes.facebookeyes.controller.Help;
 import com.feyes.facebookeyes.controller.Open;
 import com.feyes.facebookeyes.controller.Show;
 import com.feyes.facebookeyes.controller.StandardAction;
@@ -52,6 +53,7 @@ public class WorkInBackground extends Service {
     	new Show();
     	new Open();
     	new Stop();
+    	new Help();
 
     	UserAction[] actions = new UserAction[StandardAction.actions.size()];
 
