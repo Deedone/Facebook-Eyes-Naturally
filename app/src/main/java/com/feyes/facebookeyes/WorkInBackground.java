@@ -8,8 +8,10 @@ import android.view.ViewDebug;
 import android.widget.Toast;
 
 import com.feyes.facebookeyes.controller.Close;
+import com.feyes.facebookeyes.controller.Open;
 import com.feyes.facebookeyes.controller.Show;
 import com.feyes.facebookeyes.controller.StandardAction;
+import com.feyes.facebookeyes.controller.Stop;
 import com.feyes.facebookeyes.ssp.UserAction;
 import com.feyes.facebookeyes.ssp.sphinx.SpeechControllerSphinx;
 
@@ -47,6 +49,9 @@ public class WorkInBackground extends Service {
     private void onTextContent() {
     	new Close();
     	new Show();
+    	new Open();
+    	new Stop();
+
     	UserAction[] actions = new UserAction[StandardAction.actions.size()];
 
 		MainActivity.speechController =
