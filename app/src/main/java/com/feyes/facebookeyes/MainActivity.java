@@ -5,11 +5,11 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Base64;
 import android.util.Log;
@@ -18,21 +18,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.feyes.facebookeyes.controller.Show;
 import com.feyes.facebookeyes.ssp.SpeechController;
-import com.feyes.facebookeyes.ssp.UserAction;
-import com.feyes.facebookeyes.ssp.sphinx.SpeechControllerSphinx;
 
-import org.w3c.dom.Text;
-
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.Writer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
-import static com.feyes.facebookeyes.R.id.fill;
-import static com.feyes.facebookeyes.R.id.text_all;
+import java.util.Stack;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,6 +32,8 @@ public class MainActivity extends AppCompatActivity {
     public static SpeechController speechController;
 
     public static MainActivity mainActivity;
+
+    public final Stack<String> lastCommands = new Stack<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,4 +133,25 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+    public static void pushCommandValue(String s) {
+    	mainActivity.lastCommands.push(s);
+
+    	if(mainActivity.lastCommands.size() > 10) {
+    		String s1 = mainActivity.lastCommands.pop();
+			String s2 = mainActivity.lastCommands.pop();
+			String s3 = mainActivity.lastCommands.pop();
+
+			mainActivity.lastCommands.clear();
+
+			mainActivity.lastCommands.push(s3);
+			mainActivity.lastCommands.push(s2);
+			mainActivity.lastCommands.push(s1);
+		}
+	}
+
+	public static String popLastCommandValue() {
+    	if(mainActivity.lastCommands.isEmpty()) return "";
+    	return mainActivity.lastCommands.pop();
+	}
 }

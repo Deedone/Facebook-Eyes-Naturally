@@ -15,6 +15,8 @@ public class Show extends StandardAction {
 
 	@Override
 	public void action(final String st) {
+		MainActivity.mainActivity.lastCommands.push(st);
+
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
