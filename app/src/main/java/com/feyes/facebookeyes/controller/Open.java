@@ -3,7 +3,7 @@ package com.feyes.facebookeyes.controller;
 import com.feyes.facebookeyes.MainActivity;
 
 public class Open extends StandardAction {
-	protected Open() {
+	public Open() {
 		super("open");
 	}
 
