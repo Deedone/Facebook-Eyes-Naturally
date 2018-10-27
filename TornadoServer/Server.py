@@ -2,15 +2,15 @@ import tornado.escape
 import tornado.ioloop
 import tornado.web
 import os
-#import api
+import api
 
 
-#feed = api.get_feed()
+feed = api.get_feed()
 
 
 class FeedHandler(tornado.web.RequestHandler):
     def get(self):
-        response = ''  # next(feed).encode()
+        response = next(feed).encode()
         self.write(response)
 
 
