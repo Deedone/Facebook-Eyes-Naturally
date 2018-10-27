@@ -1,7 +1,7 @@
 import tornado.escape
 import tornado.ioloop
 import tornado.web
-from threading import Thread
+import os
 
 
 task = ''
@@ -58,5 +58,6 @@ application = tornado.web.Application([
 ])
 
 if __name__ == "__main__":
-    application.listen(8887)
+    port = int(os.environ.get("PORT", 8887))
+    application.listen(port)
     tornado.ioloop.IOLoop.instance().start()
