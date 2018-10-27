@@ -11,12 +11,14 @@ flag = False
 
 class FeedHandler(tornado.web.RequestHandler):
     def get(self):
+        global task
         task = {'task': 'feed'}
         send_response(self)
 
 
 class MSGHandler(tornado.web.RequestHandler):
     def get(self):
+        global task
         task = {'task': 'msg'}
         send_response(self)
 
