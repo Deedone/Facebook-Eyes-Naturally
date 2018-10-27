@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Facebook eyes</string>
+    <string name="facebook_app_id">add late</string>
+    <string name="facebook_login_protocol_scheme">add late</string>
 </resources>
